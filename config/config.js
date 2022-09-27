@@ -8,14 +8,14 @@ config({
 module.exports = {
   development: {
     username: process.env.DB_USER,
-    password: JSON.parse(process.env.DB_PASS),
+    password: null,
     database: 'larnu_dev',
     host: process.env.DB_URL,
     dialect: 'postgres'
   },
   test: {
     username: process.env.DB_USER,
-    password: JSON.parse(process.env.DB_PASS),
+    password: null,
     database: 'larnu_test',
     host: process.env.DB_URL,
     dialect: 'postgres'
