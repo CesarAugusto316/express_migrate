@@ -4,15 +4,11 @@ const dbConfig = require('./config.js');
 
 const config = dbConfig[process.env.NODE_ENV];
 
-const db = new Sequelize({
-  host: config.host,
-  port: config.port,
-  username: config.username,
-  password: config.password,
+const db = new Sequelize(config.host, {
   database: config.database,
   dialect: config.dialect,
   dialectOptions: {
-    ssl: process.env.NODE_ENV === 'production' ? true : false
+    ssl: process.env.NODE_ENV === 'production' ? true : false,
   },
   logging: false
 });
