@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const { connectDb } = require('./config/connectDB.js');
 
 
@@ -7,6 +8,7 @@ connectDb();
 
 const PORT = process.env.PORT || 3_000;
 app.use(express.json());
+app.use(cors());
 
 /**
  * 
@@ -24,6 +26,12 @@ app.use((err, req, res, next) => {
   } else {
     next();
   }
+});
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Hello World'
+  });
 });
 
 // will skip when testing

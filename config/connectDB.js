@@ -4,7 +4,7 @@ const dbConfig = require('./config.js');
 
 const config = dbConfig[process.env.NODE_ENV];
 
-const db = new Sequelize(config.host, {
+const db = new Sequelize(process.env.DB_URL, {
   database: config.database,
   dialect: config.dialect,
   dialectOptions: {
