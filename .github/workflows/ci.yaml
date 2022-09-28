@@ -1,0 +1,48 @@
+name: continuous integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  PORT: 3000
+  DB_HOST: localhost
+  DB_PORT: 5432
+  NODE_ENV: test
+
+jobs:
+  linting:
+    name: Linting the code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: yarn
+      - name: Run linting
+        run: yarn run lint
+
+  testing:
+    name: Testing the code
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          DB_URL: postgres://postgres:null@127.0.0.1:5432
+          DB_USER: postgres
+          DB_PASS: null
+          JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: yarn
+      - name: Run tests
+        run: yarn run test
