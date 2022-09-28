@@ -9,12 +9,15 @@ Express, node, jest testing, supertest, github actions ci/cd postgres, sequelize
 
 <br>
 
-## Populate .env_sample with your own variables
+## Populate .env and prod.env with your own variables environment
+
+Like .env_sample file. Yout need 3 postgreSQL databases for development, test and production environments.
 
 - yarn
 - yarn dev
 - yarn test
 - yarn lint
+- yarn db:reset
 
 <br>
 

@@ -18,7 +18,10 @@ const signup = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = await User.create({ ...req.body, password: hashedPassword });
+    const newUser = await User.create({
+      ...req.body,
+      password: hashedPassword
+    });
 
     if (newUser) {
       res.status(201).json({
@@ -39,7 +42,7 @@ const signup = async (req, res, next) => {
  */
 const login = async (req, res, next) => {
   try {
-    if (!req.body.email || !req.body.password || !req.body.firstName || !req.body.lastName) {
+    if (!req.body.email || !req.body.password) {
       return next(new HttpError(400, 'some fields are missing'));
     }
 
@@ -56,10 +59,10 @@ const login = async (req, res, next) => {
         const payload = { id: foundUser.id, email: foundUser.email };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3h' });
 
-        res.status(200).json({
+        return res.status(200).json({
           message: 'login successfull',
           user: foundUser,
-          accesToken: token
+          accessToken: token
         });
       }
     }
