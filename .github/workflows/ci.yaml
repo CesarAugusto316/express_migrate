@@ -30,6 +30,7 @@ jobs:
         image: postgres
         env:
           DB_URL: postgres://postgres:null@127.0.0.1:5432
+          DB_PASS: null
           DB_USER: postgres
           JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
         options: >-
