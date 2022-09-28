@@ -17,10 +17,10 @@ const connectDb = async () => {
   console.log('[NODE_ENV ⚡]', process.env.NODE_ENV);
   try {
     await db.authenticate();
-    console.log('[DB ⚡] connection has been established successfully.');
+    console.log(`[DB ⚡] ${db.getDatabaseName()} connection has been established successfully.`);
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    console.log('Unable to connect to the database:', error);
   }
 };
 
-module.exports = { connectDb };
+module.exports = { connectDb, db };

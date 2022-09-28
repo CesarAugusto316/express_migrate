@@ -1,51 +1,41 @@
-'use strict';
+const { DataTypes } = require('sequelize');
+const { db } = require('../config/connectDB.js');
 
-const { Model } = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
+const User = db.define('user', {
+  firstName: {
+    type: DataTypes.STRING(40),
+    allowNull: false,
+    field: 'first_name'
+  },
+  lastName: {
+    type: DataTypes.STRING(40),
+    allowNull: false,
+    field: 'last_name'
+  },
+  password: {
+    type: DataTypes.STRING(128),
+    allowNull: false
+  },
+  email: {
+    type: DataTypes.STRING(40),
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: true
     }
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'created_at'
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'updated_at'
   }
+},
+  { tableName: 'user' });
 
-  User.init({
-    firstName: {
-      type: DataTypes.STRING(40),
-      allowNull: false,
-      unique: true,
-      validate: {
-        isAlphanumeric: true,
-      }
-    },
-    lastName: {
-      type: DataTypes.STRING(40),
-      allowNull: false,
-      unique: true,
-      validate: {
-        isAlphanumeric: true,
-      }
-    },
-    email: {
-      type: DataTypes.STRING(40),
-      allowNull: false,
-      validate: {
-        isEmail: true
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
-
-  return User;
-};
+module.exports = { User };

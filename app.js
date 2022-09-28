@@ -1,14 +1,19 @@
 const express = require('express');
 const cors = require('cors');
-const { connectDb } = require('./config/connectDB.js');
+const morgan = require('morgan');
+const { routerTodos } = require('./routes/routerTodos.js');
+const { routerAuth } = require('./routes/routerAuth.js');
 
 
 const app = express();
-connectDb();
 
-const PORT = process.env.PORT || 3_000;
 app.use(express.json());
 app.use(cors());
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+app.use('/api/v1/todos', routerTodos);
+app.use('/api/v1/auth', routerAuth);
 
 /**
  * 
@@ -19,7 +24,7 @@ app.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = err.message || 'Something went wrong';
 
-    return res.status(status).json({
+    res.status(status).json({
       status,
       message
     });
@@ -27,18 +32,5 @@ app.use((err, req, res, next) => {
     next();
   }
 });
-
-app.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Hello World'
-  });
-});
-
-// will skip when testing
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`[Server ⚡] running on port ${PORT}.`);
-  });
-}
 
 module.exports = { app };

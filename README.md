@@ -18,5 +18,6 @@ Express, node, jest testing, supertest, github actions ci/cd postgres, sequelize
 
 <br>
 
+![plot](./assets/Screenshot_2022-09-27_23-30-42.png)
 ![plot](./assets/Screenshot_2022-09-26_18-46-47.png)
 ![plot](./assets/Screenshot_2022-09-26_18-47-27.png)
