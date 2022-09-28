@@ -17,7 +17,7 @@ jobs:
     name: Linting the code
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Dependencies
         run: yarn
       - name: Run linting
@@ -42,15 +42,16 @@ jobs:
         ports:
             - 5432:5432  
     steps:
-     - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout
+      - uses: actions/checkout@v3
 
       - name: Setup Node
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1
         with:
           node-version: "16.17.1"
 
-      - name: Install Dependencies
+      - name: Installing Dependencies
         run: yarn
-      - name: Run tests
-        run: yarn run test
+
+      - name: testing our app
+        run: yarn test
