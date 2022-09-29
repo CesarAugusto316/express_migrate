@@ -11,17 +11,20 @@ env:
   DB_PORT: 5432
   DB_URL: postgres://postgres:null@127.0.0.1:5432
   JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
+  POSTGRES_HOST: localhost
+  POSTGRES_PORT: 5432
+  POSTGRES_DB_URL: postgres://postgres:null@127.0.0.1:5432
 
 jobs:
   linting:
     name: Linting the code
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Dependencies
-        run: yarn
-      - name: Run linting
-        run: yarn lint
+      - run: yarn
+      - name: Run Linting
+      - run: yarn lint
 
   testing:
     name: Testing the code
@@ -29,10 +32,12 @@ jobs:
     services:
       # Label used to access the service container
       postgres:
-      # Docker Hub image
+        # Docker Hub image
         image: postgres
         # Provide the password for postgres
         env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB_NAME: larnu_test
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
         options: >-
@@ -41,19 +46,15 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-        # Maps tcp port 5432 on service container to the host
+          # Maps tcp port 5432 on service container to the host
           - 5432:5432
     steps:
-      - name: Checkout
-      - uses: actions/checkout@v2
-
-      - name: Setup Node
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "17.8"
+          node-version: 18
 
       - name: Installing Dependencies
-        run: yarn
-
-      - name: testing our app
-        run: yarn test
+      - run: yarn ci
+      - name: Testing our App
+      - run: yarn test
