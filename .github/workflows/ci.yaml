@@ -9,6 +9,8 @@ on:
 env:
   DB_HOST: localhost
   DB_PORT: 5432
+  DB_URL: postgres://postgres:null@127.0.0.1:5432
+  JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
 
 jobs:
   linting:
@@ -25,24 +27,22 @@ jobs:
     name: Testing the code
     runs-on: ubuntu-latest
     services:
+      # Label used to access the service container
       postgres:
+      # Docker Hub image
         image: postgres
+        # Provide the password for postgres
         env:
-          DB_URL: postgres://postgres:null@127.0.0.1:5432
-          DB_HOST: localhost
-          DB_PASS: null
-          DB_USER=: postgres
-          DB_NAME: ""
-          DB_PORT: 5432
-          NODE_ENV: development
-          JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
         ports:
-            - 5432:5432
+        # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     steps:
       - name: Checkout
       - uses: actions/checkout@v2
