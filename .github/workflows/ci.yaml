@@ -53,10 +53,3 @@ jobs:
        node-version: 16
     - run: yarn
     - run: yarn test
-      env:
-          # The hostname used to communicate with the PostgreSQL service container
-        POSTGRES_HOST: localhost
-          # The default PostgreSQL port
-        POSTGRES_PORT: 5432
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
