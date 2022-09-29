@@ -15,11 +15,11 @@ jobs:
     name: Linting the code
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install Dependencies
         run: yarn
       - name: Run linting
-        run: yarn run lint
+        run: yarn lint
 
   testing:
     name: Testing the code
@@ -28,16 +28,32 @@ jobs:
       postgres:
         image: postgres
         env:
-          DB_URL: postgres://postgres:null@127.0.0.1:5432
-          DB_HOST: localhost
+          DB_URL: "postgres://postgres:null@127.0.0.1:5432"
+          DB_HOST: "localhost"
           DB_PASS: null
-          DB_USER: postgres
+          DB_USER=: "postgres"
           DB_NAME: ""
           DB_PORT: 5432
-          JWT_SECET: 748384638011979397293gsdgs3828ashgka33
+          NODE_ENV: "development"
+          JWT_SECRET: "748384638011979397293gsdgs3828ashgka33"
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+            - 5432:5432
     steps:
-      - uses: actions/checkout@v2
-      - name: Install Dependencies
+      - name: Checkout
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "17.8"
+
+      - name: Installing Dependencies
         run: yarn
-      - name: Run tests
+
+      - name: testing our app
         run: yarn test
