@@ -21,10 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Dependencies
-      - run: yarn
-      - name: Run Linting
-      - run: yarn lint
+      - run: npm i
+      - run: npm run lint
 
   testing:
     name: Testing the code
@@ -48,12 +46,9 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Installing Dependencies
-      - run: npm ci
-      - name: Testing our App
-      - run: npm test
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+       node-version: 16
+    - run: npm ci
+    - run: npm test
