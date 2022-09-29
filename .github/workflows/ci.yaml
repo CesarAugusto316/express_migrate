@@ -10,7 +10,7 @@ env:
   DB_HOST: localhost
   DB_PORT: 5432
   DB_USER: ${{ secrets.DB_USER }}
-  DB_PASS: ${{secrets.DB_PASS }}
+  DB_PASS: ${{ secrets.DB_PASS }}
   DB_URL: ${{ secrets.DB_URL }}
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
