@@ -17,8 +17,8 @@ afterAll(async () => {
 });
 
 describe('app.use(\'/api/v1/todos\', routerTodos)', () => {
-  it('should get all todos for not logged In users', async () => {
 
+  it('should get all todos for not logged In users', async () => {
     const res = await request(app).get('/api/v1/todos');
 
     expect(res.statusCode).toBe(200);

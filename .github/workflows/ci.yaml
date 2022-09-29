@@ -9,10 +9,10 @@ on:
 env:
   DB_HOST: localhost
   DB_PORT: 5432
-  DB_USER: postgres
-  DB_PASS: postgres
-  DB_URL: postgres://postgres:postgres@127.0.0.1:5432
-  JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
+  DB_USER: ${{secrets.DB_USER}}
+  DB_PASS: ${{secrets.DB_PASS}}
+  DB_URL: ${{secrets.DB_URL}}
+  JWT_SECRET: ${{secrets.JWT_SECRET}}
 
 jobs:
   linting:
@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: npm i
-      - run: npm run lint
+      - run: yarn
+      - run: yarn run lint
 
   testing:
     name: Testing the code
@@ -33,8 +33,8 @@ jobs:
         image: postgres
         # Provide the password for postgres
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: ${{secrets.DB_USER}}
+          POSTGRES_PASSWORD: ${{secrets.DB_PASS}}
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
