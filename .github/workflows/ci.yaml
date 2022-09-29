@@ -9,10 +9,10 @@ on:
 env:
   DB_HOST: localhost
   DB_PORT: 5432
-  DB_USER: ${{ secrets.DB_USER }}
-  DB_PASS: ${{ secrets.DB_PASS }}
-  DB_URL: ${{ secrets.DB_URL }}
-  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  DB_USER: postgres
+  DB_PASS: postgres
+  DB_URL: postgres://postgres:postges@127.0.0.1:5432
+  JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
 
 jobs:
   linting:
