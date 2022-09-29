@@ -37,7 +37,6 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_USER: postgres
-          POSTGRES_DB_NAME: larnu_test
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
         options: >-
@@ -55,6 +54,6 @@ jobs:
           node-version: 18
 
       - name: Installing Dependencies
-      - run: yarn ci
+      - run: npm ci
       - name: Testing our App
-      - run: yarn test
+      - run: npm test
