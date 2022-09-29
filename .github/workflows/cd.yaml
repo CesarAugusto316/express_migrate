@@ -1,0 +1,53 @@
+name: continuous develivery
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  DB_HOST: localhost
+  DB_PORT: 5432
+  DB_USER: postgres
+  DB_PASS: postgres
+  DB_URL: postgres://postgres:postgres@127.0.0.1:5432
+  JWT_SECRET: 748384638011979397293gsdgs3828ashgka33
+
+jobs:
+  testing:
+    name: Testing the code
+    runs-on: ubuntu-latest
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: yarn
+      - run: yarn test
+
+  deployment:
+    needs: [testing]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "https://api.render.com/deploy/srv-ccp3ntcgqg47hamb43u0?key=nHztx3PIU1o"
+          method: "GET"

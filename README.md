@@ -22,5 +22,3 @@ Like .env_sample file. Yout need 3 postgreSQL databases for development, test an
 <br>
 
 ![plot](./assets/Screenshot_2022-09-27_23-30-42.png)
-![plot](./assets/Screenshot_2022-09-26_18-46-47.png)
-![plot](./assets/Screenshot_2022-09-26_18-47-27.png)
