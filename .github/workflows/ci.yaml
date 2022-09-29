@@ -40,4 +40,4 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run tests
-        run: yarn run test
+        run: yarn test
