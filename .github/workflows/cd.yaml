@@ -1,7 +1,7 @@
 name: continuous develivery
 
 on:
-  pull_request:
+  push:
     branches: [main]
 
 env:
@@ -49,5 +49,5 @@ jobs:
       - name: Deploy Stage
         uses: fjogeleit/http-request-action@v1
         with:
-          url: "https://api.render.com/deploy/srv-ccp3ntcgqg47hamb43u0?key=nHztx3PIU1o"
+          url: ${{ secrets.DEPLOY_HOOK }}
           method: "GET"
