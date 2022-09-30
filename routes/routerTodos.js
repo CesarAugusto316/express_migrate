@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { requireAuth } = require('../middlewares/requireAuth.js');
+// const { requireAuth } = require('../middlewares/requireAuth.js');
 const { getAll, create, getById, remove, update } = require('../controllers/controllerTodos');
 
 
@@ -7,11 +7,11 @@ const routerTodos = Router();
 
 routerTodos.route('/')
   .get(getAll)
-  .post(requireAuth, create);
+  .post(create);
 
 routerTodos.route('/:id')
-  .get(requireAuth, getById)
-  .patch(requireAuth, update)
-  .delete(requireAuth, remove);
+  .get(getById)
+  .patch(update)
+  .delete(remove);
 
 module.exports = { routerTodos };

@@ -17,19 +17,23 @@ const signup = async (req, res, next) => {
       return next(new HttpError(400, 'password must be at most 12 chars long'));
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = await User.create({
-      ...req.body,
-      password: hashedPassword
+    const [newUser, isCreated] = await User.findOrCreate({
+      where: {
+        email: req.body.email
+      },
+      defaults: {
+        ...req.body,
+        password: await bcrypt.hash(req.body.password, 10)
+      }
     });
 
-    if (newUser) {
+    if (isCreated) {
       res.status(201).json({
         message: 'user created',
         id: newUser.id
       });
     } else {
-      return next(new HttpError(400, 'user cannot be created'));
+      return next(new HttpError(400, 'a user with this email already exists'));
     }
   } catch (error) {
     next(error);
