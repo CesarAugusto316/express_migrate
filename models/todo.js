@@ -18,6 +18,14 @@ const Todo = db.define('todo', {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  userId: {
+    field: 'user_id',
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'user',
+      key: 'id'
+    }
+  },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
