@@ -1,13 +1,18 @@
 'use strict';
 
 module.exports = {
+  /**
+   * 
+   * @param {import('sequelize').QueryInterface} queryInterface 
+   * @param {import('sequelize').Sequelize} Sequelize 
+   */
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('todo', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       title: {
         type: Sequelize.STRING,
@@ -23,6 +28,14 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+      userId: {
+        field: 'user_id',
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'user',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -36,6 +49,11 @@ module.exports = {
     });
   },
 
+  /**
+   * 
+   * @param {import('sequelize').QueryInterface} queryInterface 
+   * @param {import('sequelize').Sequelize} Sequelize 
+   */
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('todo');
   }

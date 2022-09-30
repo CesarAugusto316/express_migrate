@@ -34,7 +34,11 @@ const getById = async (req, res, next) => {
  * @type {import('express').RequestHandler}
  */
 const create = async (req, res, next) => {
-
+  try {
+    const [newTodo, isCreated] = Todo.findOrCreate();
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**

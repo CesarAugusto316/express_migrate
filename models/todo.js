@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const { db } = require('../config/connectDB.js');
+const { User } = require('./user.js');
 
 
 const Todo = db.define('todo', {
@@ -29,5 +30,17 @@ const Todo = db.define('todo', {
   }
 },
   { tableName: 'todo' });
+
+// This creates the `user_id` foreign key in Todo.
+Todo.belongsTo(User, {
+  foreignKey: {
+    allowNull: false,
+    name: 'user_id',
+  }
+});
+
+User.hasOne(Todo, {
+  onDelete: 'CASCADE',
+});
 
 module.exports = { Todo };

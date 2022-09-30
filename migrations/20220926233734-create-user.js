@@ -1,6 +1,11 @@
 'use strict';
 
 module.exports = {
+  /**
+  * 
+  * @param {import('sequelize').QueryInterface} queryInterface 
+  * @param {import('sequelize').Sequelize} Sequelize 
+  */
   async up(queryInterface, Sequelize) {
     /**
      * Add altering commands here.
@@ -13,7 +18,8 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'cascade'
       },
       firstName: {
         type: Sequelize.STRING(40),
@@ -50,6 +56,11 @@ module.exports = {
     });
   },
 
+  /**
+   * 
+   * @param {import('sequelize').QueryInterface} queryInterface 
+   * @param {import('sequelize').Sequelize} Sequelize 
+   */
   async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
