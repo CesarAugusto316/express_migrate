@@ -1,17 +1,15 @@
 const { Router } = require('express');
-// const { requireAuth } = require('../middlewares/requireAuth.js');
-const { getAll, create, getById, remove, update } = require('../controllers/controllerTodos');
+const { requireAuth } = require('../middlewares/requireAuth.js');
+const { getAllByUser, create, remove, update } = require('../controllers/controllerTodos.js');
 
 
 const routerTodos = Router();
 
-routerTodos.route('/')
-  .get(getAll)
-  .post(create);
-
+// 1. log in before any action
 routerTodos.route('/:id')
-  .get(getById)
-  .patch(update)
-  .delete(remove);
+  .get(requireAuth, getAllByUser)
+  .post(requireAuth, create)
+  .patch(requireAuth, update)
+  .delete(requireAuth, remove);
 
 module.exports = { routerTodos };

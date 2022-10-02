@@ -7,24 +7,14 @@ const Todo = db.define('todo', {
   title: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
   },
   description: {
     type: DataTypes.TEXT,
     allowNull: false,
-    unique: true
   },
   completed: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
-  },
-  userId: {
-    field: 'user_id',
-    type: DataTypes.INTEGER,
-    references: {
-      model: 'user',
-      key: 'id'
-    }
   },
   createdAt: {
     allowNull: false,
@@ -43,11 +33,12 @@ const Todo = db.define('todo', {
 Todo.belongsTo(User, {
   foreignKey: {
     allowNull: false,
-    name: 'user_id',
-  }
+    field: 'user_id'
+  },
+  onDelete: 'CASCADE'
 });
 
-User.hasOne(Todo, {
+User.hasMany(Todo, {
   onDelete: 'CASCADE',
 });
 
