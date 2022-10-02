@@ -13,11 +13,12 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await db.getQueryInterface().bulkDelete('user', null, {});
   await db.close();
 });
 
-// signup
-describe('app.use(\'/api/v1/auth/signup\', routerAuth)', () => {
+
+describe('routerAuth, signup)', () => {
 
   it('should create an user given the correct fields', async () => {
     const testUser = {
@@ -60,8 +61,9 @@ describe('app.use(\'/api/v1/auth/signup\', routerAuth)', () => {
   });
 });
 
+
 // login
-describe('app.use(\'/api/v1/auth/login\', routerAuth)', () => {
+describe('routerAuth, login)', () => {
 
   it('should allow to log in with email and password', async () => {
     // 1. registers a new user

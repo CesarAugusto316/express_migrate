@@ -11,13 +11,14 @@ exports.requireAuth = async (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
       const accessToken = authHeader.split(' ')[1];
-      jwt.verify(accessToken, process.env.JWT_SECRET, (error, authUserPayload) => {
+
+      jwt.verify(accessToken, process.env.JWT_SECRET, (error, decodedToken) => {
         if (error) {
           return next(new HttpError(401, 'unauthorized'));
         }
 
-        req.authUserPayload = authUserPayload;
-        next(); // we go the next middleware
+        req.authenticatedUser = decodedToken;
+        next(); // we go the next middleware, everything is ok.
       });
 
     } else {

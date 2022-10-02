@@ -1,0 +1,95 @@
+[
+  {
+    "_id": "54af6004-d5a6-421c-aa10-8938076ee56c",
+    "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
+    "containerId": "",
+    "name": "get all users",
+    "url": "http://localhost:3000/api/v1/users/",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-10-01T07:17:34.771Z",
+    "modified": "2022-10-01T07:18:50.328Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "222c67e9-dfed-4c06-9279-1500eb6af7f8",
+    "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
+    "containerId": "",
+    "name": "login user",
+    "url": "http://localhost:3000/api/v1/auth/login",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-10-01T07:32:38.350Z",
+    "modified": "2022-10-01T23:15:24.182Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"Elise_Mohr@yahoo.com\",\n  \"password\": \"123456\"\n}",
+      "form": []
+    },
+    "tests": [
+      {
+        "type": "Content-Type",
+        "custom": "",
+        "action": "equal",
+        "value": "application/json; charset=utf-8"
+      },
+      {
+        "type": "set-env-var",
+        "custom": "json.accessToken",
+        "action": "setto",
+        "value": "{{access_token}}"
+      },
+      {
+        "type": "set-env-var",
+        "custom": "json.user.id",
+        "action": "setto",
+        "value": "{{user_id}}"
+      }
+    ]
+  },
+  {
+    "_id": "80b809df-4a53-4f1c-9421-2664bda8f9ea",
+    "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
+    "containerId": "",
+    "name": "getAll todos by user",
+    "url": "http://localhost:3000/api/v1/todos/{{user_id}}",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-10-01T07:42:50.504Z",
+    "modified": "2022-10-01T07:50:49.449Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{access_token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "fb48d0e1-04ba-44b6-9a21-27a499d0fc7a",
+    "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
+    "containerId": "",
+    "name": "create todo by user",
+    "url": "http://localhost:3000/api/v1/todos/{{user_id}}",
+    "method": "POST",
+    "sortNum": 40000,
+    "created": "2022-10-01T23:17:32.258Z",
+    "modified": "2022-10-01T23:20:59.915Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"title\": \"any title 3\",\n  \"description\": \"any description 2\"\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{access_token}}"
+    },
+    "tests": []
+  }
+]

@@ -59,9 +59,8 @@ module.exports = {
   /**
    * 
    * @param {import('sequelize').QueryInterface} queryInterface 
-   * @param {import('sequelize').Sequelize} Sequelize 
    */
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     /**
      * Add reverting commands here.
      *

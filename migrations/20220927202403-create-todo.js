@@ -17,12 +17,10 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
       },
       description: {
         type: Sequelize.TEXT,
         allowNull: false,
-        unique: true
       },
       completed: {
         type: Sequelize.BOOLEAN,
@@ -34,7 +32,8 @@ module.exports = {
         references: {
           model: 'user',
           key: 'id'
-        }
+        },
+        onDelete: 'CASCADE'
       },
       createdAt: {
         allowNull: false,
@@ -52,9 +51,8 @@ module.exports = {
   /**
    * 
    * @param {import('sequelize').QueryInterface} queryInterface 
-   * @param {import('sequelize').Sequelize} Sequelize 
    */
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('todo');
   }
 };

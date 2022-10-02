@@ -60,11 +60,15 @@ const login = async (req, res, next) => {
       const hasValidPassword = await bcrypt.compare(req.body.password, foundUser.password);
 
       if (hasValidPassword) {
-        const payload = { id: foundUser.id, email: foundUser.email };
+        const payload = {
+          id: foundUser.id,
+          email: foundUser.email,
+          firstName: foundUser.firstName
+        };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3h' });
 
         return res.status(200).json({
-          message: 'login successfull',
+          message: 'login successful',
           user: foundUser,
           accessToken: token
         });
@@ -76,5 +80,6 @@ const login = async (req, res, next) => {
     next(error);
   }
 };
+
 
 module.exports = { signup, login };

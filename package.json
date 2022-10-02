@@ -6,13 +6,14 @@
   "type": "commonjs",
   "scripts": {
     "start": "NODE_ENV=production node server.js",
-    "dev": "nodemon server.js",
+    "dev": "yarn run db:reset && yarn run db:seed && nodemon server.js",
     "lint": "eslint .",
     "test": "NODE_ENV=test jest --testTimeout=20000",
-    "test:watch": "NODE_ENV=test jest --watchAll --testTimeout=30000",
+    "test:watch": "NODE_ENV=test yarn run db:reset && jest --watchAll --testTimeout=30000",
     "test:coverage": "NODE_ENV=test jest --coverage",
     "pretest": "NODE_ENV=test yarn run db:reset",
-    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate"
+    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate",
+    "db:seed": "npx sequelize-cli db:seed:all"
   },
   "keywords": [],
   "author": "",

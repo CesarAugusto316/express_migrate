@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "029a0914-248b-4bdd-836f-4334651693e2",
+    "name": "my_env",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-10-01T07:27:35.094Z",
+    "modified": "2022-10-01T23:15:27.152Z",
+    "data": [
+      {
+        "name": "access_token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJFbGlzZV9Nb2hyQHlhaG9vLmNvbSIsImZpcnN0TmFtZSI6IkVsaXNlIiwiaWF0IjoxNjY0NjY2MTI3LCJleHAiOjE2NjQ2NzY5Mjd9.Z15klkzsT2XJETp4ErHKYuZ_95v5uuIB7fqvOOFSA_A"
+      },
+      {
+        "name": "user_id",
+        "value": "1"
+      }
+    ]
+  }
+]
