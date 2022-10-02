@@ -8,9 +8,12 @@
     "method": "GET",
     "sortNum": 10000,
     "created": "2022-10-01T07:17:34.771Z",
-    "modified": "2022-10-01T07:18:50.328Z",
+    "modified": "2022-10-02T17:14:34.211Z",
     "headers": [],
     "params": [],
+    "auth": {
+      "type": "bearer"
+    },
     "tests": []
   },
   {
@@ -22,12 +25,12 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2022-10-01T07:32:38.350Z",
-    "modified": "2022-10-01T23:15:24.182Z",
+    "modified": "2022-10-02T16:15:50.737Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"email\": \"Elise_Mohr@yahoo.com\",\n  \"password\": \"123456\"\n}",
+      "raw": "{\n  \"email\": \"Zoie32@gmail.com\",\n  \"password\": \"123456\"\n}",
       "form": []
     },
     "tests": [
@@ -56,11 +59,11 @@
     "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
     "containerId": "",
     "name": "getAll todos by user",
-    "url": "http://localhost:3000/api/v1/todos/{{user_id}}",
+    "url": "http://localhost:3000/api/v1/users/{{user_id}}/todos",
     "method": "GET",
     "sortNum": 30000,
     "created": "2022-10-01T07:42:50.504Z",
-    "modified": "2022-10-01T07:50:49.449Z",
+    "modified": "2022-10-02T16:34:04.824Z",
     "headers": [],
     "params": [],
     "auth": {
@@ -74,18 +77,59 @@
     "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
     "containerId": "",
     "name": "create todo by user",
-    "url": "http://localhost:3000/api/v1/todos/{{user_id}}",
+    "url": "http://localhost:3000/api/v1/users/{{user_id}}/todos",
     "method": "POST",
     "sortNum": 40000,
     "created": "2022-10-01T23:17:32.258Z",
-    "modified": "2022-10-01T23:20:59.915Z",
+    "modified": "2022-10-02T16:22:58.826Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"title\": \"any title 3\",\n  \"description\": \"any description 2\"\n}",
+      "raw": "{\n  \"title\": \"any title 4\",\n  \"description\": \"any description 4\"\n}",
       "form": []
     },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{access_token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "c6bb9cef-3c61-49dd-a634-1d85e3edcc09",
+    "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
+    "containerId": "",
+    "name": "update todo by user Copy",
+    "url": "http://localhost:3000/api/v1/users/{{user_id}}/todos/36",
+    "method": "PATCH",
+    "sortNum": 50000,
+    "created": "2022-10-02T16:27:51.547Z",
+    "modified": "2022-10-02T16:32:46.596Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"title\": \"any title 4\",\n  \"description\": \"any description 4\",\n  \"completed\": true\n}",
+      "form": []
+    },
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{access_token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "27feab52-7c3b-4c7a-97d5-8c7283ff9c19",
+    "colId": "673291ce-9c4b-4b9b-81a5-6655c4f7a84d",
+    "containerId": "",
+    "name": "delete todo by user Copy Copy",
+    "url": "http://localhost:3000/api/v1/users/{{user_id}}/todos/36",
+    "method": "DELETE",
+    "sortNum": 60000,
+    "created": "2022-10-02T16:28:26.648Z",
+    "modified": "2022-10-02T16:33:42.774Z",
+    "headers": [],
+    "params": [],
     "auth": {
       "type": "bearer",
       "bearer": "{{access_token}}"

@@ -28,7 +28,7 @@ const getAll = async (req, res, next) => {
  */
 const getById = async (req, res, next) => {
   try {
-    const user = await User.findByPk(+req.params.id);
+    const user = await User.findByPk(+req.params.userId);
 
     if (user) {
       res.status(200).json({
@@ -48,7 +48,7 @@ const getById = async (req, res, next) => {
  */
 const update = async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.id);
+    const user = await User.findByPk(req.params.userId);
 
     if (user) {
       await user.set({
@@ -75,7 +75,7 @@ const remove = async (req, res, next) => {
   try {
     const user = await User.destroy({
       where: {
-        id: req.params.id
+        id: req.params.userId
       }
     });
 
