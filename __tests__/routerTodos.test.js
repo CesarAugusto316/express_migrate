@@ -1,7 +1,8 @@
 const request = require('supertest');
 const { app } = require('../app.js');
 const { routerAuth } = require('../routes/routerAuth.js');
-const { routerUsers } = require('../routes/routerUser.js');
+const { routerTodos } = require('../routes/routerTodos.js');
+const { isAuthenticated } = require('../middlewares/validateTokens.js');
 const { defaultErrorHandler } = require('../middlewares/defaultErrorHandler.js');
 const { connectDb, db } = require('../config/connectDB.js');
 const { faker } = require('@faker-js/faker');
@@ -9,7 +10,7 @@ const { faker } = require('@faker-js/faker');
 
 beforeAll(async () => {
   app.use('/api/v1/auth', routerAuth);
-  app.use('/api/v1/users', routerUsers); // requires token validation
+  app.use('/api/v1/todos', isAuthenticated, routerTodos);
   app.use(defaultErrorHandler);
 
   await connectDb();
@@ -27,6 +28,7 @@ afterAll(async () => {
 describe('[routerTodos ⚡]', () => {
   const agent = request.agent(app);
   let loggedUser;
+  let todo;
   const testUser = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -50,51 +52,47 @@ describe('[routerTodos ⚡]', () => {
     });
 
     it('should create todo', async () => {
-      const { user } = loggedUser.body;
-      const res = await agent.post(`/api/v1/users/${user.id}/todos`).send({
+      todo = await agent.post('/api/v1/todos').send({
         title: faker.lorem.words(3),
         description: faker.lorem.sentence(5)
       });
 
-      expect(res.statusCode).toBe(201);
+      expect(todo.statusCode).toBe(201);
+      expect(todo.body).toHaveProperty('todo');
+    });
+
+    it('should update todo', async () => {
+      const res = await agent
+        .patch(`/api/v1/todos/${todo.body.todo.id}`)
+        .send({
+          title: faker.lorem.words(3),
+          description: faker.lorem.sentence(5),
+          id: loggedUser.body.user.id
+        });
+
+      expect(res.statusCode).toBe(200);
       expect(res.body).toHaveProperty('todo');
     });
 
-    // it('should update todo', async () => {
-    //   const { user } = loggedUser.body;
-    //   const res = await agent
-    //     .patch(`/api/v1/todos/${user.id}`)
-    //     .send({
-    //       title: faker.lorem.words(3),
-    //       description: faker.lorem.sentence(5),
-    //       id: 1
-    //     });
-
-    //   expect(res.statusCode).toBe(201);
-    //   expect(res.body).toHaveProperty('todo');
-    // });
-
     it('should getAll todos by user', async () => {
-      const { user } = loggedUser.body;
       const res = await agent
-        .get(`/api/v1/users/${user.id}/todos`);
+        .get('/api/v1/todos');
 
       expect(res.statusCode).toBe(200);
       expect(res.body).toHaveProperty('todos');
       expect(res.body.todos).toBeInstanceOf(Array);
     });
 
-    // it('should remove a todo', async () => {
-    //   const { user } = loggedUser.body;
-    //   const res = await agent
-    //     .post(`/api/v1/todos/${user.id}`)
-    //     .send({
-    //       title: faker.lorem.words(3),
-    //       description: faker.lorem.sentence(5)
-    //     });
+    it('should remove a todo', async () => {
+      const res = await agent
+        .delete(`/api/v1/todos/${todo.body.todo.id}`)
+        .send({
+          id: loggedUser.body.user.id
+        });
 
-    //   expect(res.statusCode).toBe(201);
-    //   expect(res.body).toHaveProperty('todo');
-    // });
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty('todo');
+      expect(res.body.todo).toBe(null);
+    });
   });
 });

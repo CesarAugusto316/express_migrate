@@ -10,7 +10,7 @@ const getAllByUser = async (req, res, next) => {
   try {
     const todos = await Todo.findAll({
       where: {
-        userId: +req.params.userId
+        userId: +req.authenticatedUser.id
       },
       order: [['updated_at', 'ASC']]
     });
@@ -36,7 +36,7 @@ const create = async (req, res, next) => {
     const [newTodo, isCreated] = await Todo.findOrCreate({
       where: {
         ...req.body, // {title, description}
-        userId: +req.params.userId
+        userId: +req.authenticatedUser.id
       }
     });
 
@@ -45,7 +45,7 @@ const create = async (req, res, next) => {
         todo: newTodo
       });
     } else {
-      next(new HttpError(400, `todo already exists for userId: ${req.params.userId}`));
+      next(new HttpError(400, `todo already exists for userId: ${req.authenticatedUser.id}`));
     }
   } catch (error) {
     next(error);
@@ -60,7 +60,7 @@ const update = async (req, res, next) => {
   try {
     const todo = await Todo.findOne({
       where: {
-        userId: +req.params.userId,
+        userId: +req.authenticatedUser.id,
         id: +req.params.todoId
       }
     });
@@ -75,7 +75,7 @@ const update = async (req, res, next) => {
         todo
       });
     } else {
-      next(new HttpError(400, `todo doesn't exist for userId: ${req.params.userId}`));
+      next(new HttpError(400, `todo doesn't exist for userId: ${req.authenticatedUser.id}`));
     }
   } catch (error) {
     next(error);
@@ -90,7 +90,7 @@ const remove = async (req, res, next) => {
   try {
     const deletedTodo = await Todo.destroy({
       where: {
-        userId: +req.params.userId,
+        userId: +req.authenticatedUser.id,
         id: +req.params.todoId
       }
     });
@@ -100,7 +100,7 @@ const remove = async (req, res, next) => {
         todo: null
       });
     } else {
-      next(new HttpError(400, `todo doesn't exists for userId: ${req.params.userId}`));
+      next(new HttpError(400, `todo doesn't exists for userId: ${req.authenticatedUser.id}`));
     }
   } catch (error) {
     next(error);

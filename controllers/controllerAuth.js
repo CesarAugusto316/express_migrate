@@ -23,7 +23,7 @@ const signup = async (req, res, next) => {
       },
       defaults: {
         ...req.body,
-        password: await bcrypt.hash(req.body.password, 10)
+        password: bcrypt.hashSync(req.body.password, 10)
       }
     });
 
@@ -50,36 +50,87 @@ const login = async (req, res, next) => {
       return next(new HttpError(400, 'some fields are missing'));
     }
 
-    const foundUser = await User.findOne({
+    const foundUserByEmail = await User.findOne({
       where: {
         email: req.body.email
       }
     });
 
-    if (foundUser) {
-      const hasValidPassword = await bcrypt.compare(req.body.password, foundUser.password);
+    if (foundUserByEmail) {
+      const hasValidPassword = bcrypt.compareSync(req.body.password, foundUserByEmail.password);
 
       if (hasValidPassword) {
         const payload = {
-          id: foundUser.id,
-          email: foundUser.email,
-          firstName: foundUser.firstName
+          id: foundUserByEmail.id,
+          email: foundUserByEmail.email,
+          firstName: foundUserByEmail.firstName
         };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '3h' });
 
-        return res.status(200).json({
-          message: 'login successful',
-          user: foundUser,
-          accessToken: token
-        });
+        const accessToken = jwt
+          .sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s' });
+        const refreshToken = jwt
+          .sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '10h' });
+
+        const threeMonths = new Date();
+        threeMonths.setMonth(threeMonths.getMonth() + 3);
+
+        console.log('3 months:', threeMonths);
+
+        return res.
+          cookie('refresh_token', refreshToken,
+            { httpOnly: true, expires: threeMonths }
+          )
+          .status(200)
+          .json({
+            message: 'login successful',
+            user: foundUserByEmail,
+            accessToken,
+          });
       }
     }
-    return next(new HttpError(404, 'invalid credentials'));
+    return next(new HttpError(403, 'invalid credentials'));
 
   } catch (error) {
     next(error);
   }
 };
 
+/**
+ *
+ * @type {import('express').RequestHandler}
+ */
+const refreshToken = async (req, res, next) => {
+  console.log('req.originalUrl:', req.originalUrl);
+  try {
+    /** @type {string} */
+    const refreshToken = req.cookies['refresh_token'];
+    const { payload } = jwt
+      .verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, { complete: true });
 
-module.exports = { signup, login };
+    const accessToken = jwt
+      .sign(
+        {
+          id: payload.id,
+          email: payload.email,
+          firstName: payload.firstName
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '60s' }
+      );
+
+    if (accessToken) {
+      // req.headers.authorization = `Bearer ${accessToken}`;
+      // res.redirect('back');
+      res.status(200).json({
+        accessToken
+      });
+    } else {
+      next(new HttpError(500, 'we could not refresh the token'));
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+module.exports = { signup, login, refreshToken };

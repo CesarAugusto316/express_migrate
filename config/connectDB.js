@@ -4,6 +4,11 @@ const dbConfig = require('./config.js');
 
 const config = dbConfig[process.env.NODE_ENV];
 
+/**
+ * 
+ * @description depending on the environment we connect to a given
+ * database
+ */
 const db = new Sequelize(process.env.DB_URL, {
   database: config.database,
   dialect: config.dialect,
@@ -14,7 +19,6 @@ const db = new Sequelize(process.env.DB_URL, {
 });
 
 const connectDb = async () => {
-  console.log('[NODE_ENV ⚡]', process.env.NODE_ENV);
   try {
     await db.authenticate();
     console.log(`[DB ⚡] ${db.getDatabaseName()} connection has been established successfully.`);
