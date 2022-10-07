@@ -128,7 +128,7 @@ describe('routerAuth, login)', () => {
       password: faker.internet.password(10) // another new password
     });
 
-    expect(res.statusCode).toBe(404);
+    expect(res.statusCode).toBe(403);
     expect(res.body.message).toBe('invalid credentials');
   });
 });
