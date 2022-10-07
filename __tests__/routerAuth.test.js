@@ -18,7 +18,7 @@ afterAll(async () => {
 });
 
 
-describe('routerAuth, signup)', () => {
+describe('[routerAuth ⚡])', () => {
 
   it('should create an user given the correct fields', async () => {
     const testUser = {

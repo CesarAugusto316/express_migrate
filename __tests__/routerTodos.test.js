@@ -36,7 +36,8 @@ describe('[routerTodos ⚡]', () => {
     password: faker.internet.password(12)
   };
 
-  describe('requires Authorization bearer accessToken', () => {
+  describe('isAuthenticated before CRUD operations', () => {
+
     beforeAll(async () => {
       // 1. creates a new user
       await request(app).post('/api/v1/auth/signup').send(testUser);
@@ -51,7 +52,7 @@ describe('[routerTodos ⚡]', () => {
       agent.auth(loggedUser.body.accessToken, { type: 'bearer' });
     });
 
-    it('should create todo', async () => {
+    test('authenticated user should create a todo', async () => {
       todo = await agent.post('/api/v1/todos').send({
         title: faker.lorem.words(3),
         description: faker.lorem.sentence(5)
@@ -61,7 +62,7 @@ describe('[routerTodos ⚡]', () => {
       expect(todo.body).toHaveProperty('todo');
     });
 
-    it('should update todo', async () => {
+    test('authenticated user should update a todo', async () => {
       const res = await agent
         .patch(`/api/v1/todos/${todo.body.todo.id}`)
         .send({
@@ -74,7 +75,7 @@ describe('[routerTodos ⚡]', () => {
       expect(res.body).toHaveProperty('todo');
     });
 
-    it('should getAll todos by user', async () => {
+    test('authenticated user should getAll todos by user', async () => {
       const res = await agent
         .get('/api/v1/todos');
 
@@ -83,7 +84,7 @@ describe('[routerTodos ⚡]', () => {
       expect(res.body.todos).toBeInstanceOf(Array);
     });
 
-    it('should remove a todo', async () => {
+    test('authenticated user should remove a todo', async () => {
       const res = await agent
         .delete(`/api/v1/todos/${todo.body.todo.id}`)
         .send({
