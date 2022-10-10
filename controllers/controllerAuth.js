@@ -89,8 +89,8 @@ const login = async (req, res, next) => {
       }
     }
     return next(new HttpError(403, 'invalid credentials'));
-
-  } catch (error) {
+  }
+  catch (error) {
     next(error);
   }
 };
@@ -100,7 +100,6 @@ const login = async (req, res, next) => {
  * @type {import('express').RequestHandler}
  */
 const refreshToken = async (req, res, next) => {
-  console.log('req.originalUrl:', req.originalUrl);
   try {
     /** @type {string} */
     const refreshToken = req.cookies['refresh_token'];
@@ -119,10 +118,9 @@ const refreshToken = async (req, res, next) => {
       );
 
     if (accessToken) {
-      // req.headers.authorization = `Bearer ${accessToken}`;
-      // res.redirect('back');
-      res.status(200).json({
-        accessToken
+      return res.status(200).json({
+        accessToken,
+        refreshToken
       });
     } else {
       next(new HttpError(500, 'we could not refresh the token'));

@@ -10,6 +10,7 @@ const { HttpError } = require('./httpError.js');
  */
 exports.isAuthenticated = async (req, res, next) => {
   try {
+    console.log({ 'authorization': req.headers.authorization }, { 'cookies': req.cookies });
     const authHeader = req.headers.authorization;
     if (authHeader) {
       const accessToken = authHeader.split(' ')[1];
@@ -18,17 +19,14 @@ exports.isAuthenticated = async (req, res, next) => {
         verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decodedToken) => {
           if (err) {
             if (err.name === 'TokenExpiredError') {
-
-              return res.redirect('auth/refreshtoken');
+              return res
+                .redirect('auth/refreshtoken');
             }
-
             return next(new HttpError(401, err.name)); // unauthorized
           }
-
           req.authenticatedUser = decodedToken;
           next(); // we go the next middleware, everything is ok.
         });
-
     } else {
       next(new HttpError(403, 'forbidden'));
     }

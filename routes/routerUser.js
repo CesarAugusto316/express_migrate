@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const { isAuthenticated } = require('../middlewares/validateTokens.js');
-// const { routerTodos } = require('./routerTodos.js');
 const { getAll, getById, remove, update } = require('../controllers/controllerUser.js');
 
 
@@ -14,8 +13,5 @@ routerUsers.use(isAuthenticated).route('/:userId')
   .get(getById)
   .patch(update)
   .delete(remove);
-
-// nested routers
-// routerUsers.use('/todos', routerTodos);
 
 module.exports = { routerUsers };
